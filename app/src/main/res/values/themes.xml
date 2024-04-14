@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.ShiftLabTest2024Sp" parent="Base.Theme.ShiftLabTest2024Sp" />
+
+    <style name="Theme.ShiftLabTest2024Sp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
