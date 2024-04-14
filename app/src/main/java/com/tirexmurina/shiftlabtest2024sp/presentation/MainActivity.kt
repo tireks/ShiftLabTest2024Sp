@@ -1,10 +1,11 @@
-package com.tirexmurina.shiftlabtest2024sp
+package com.tirexmurina.shiftlabtest2024sp.presentation
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.tirexmurina.shiftlabtest2024sp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
