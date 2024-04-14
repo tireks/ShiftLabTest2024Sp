@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ShiftLab Test 2024Sp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registration_button_label">Let\'s create Account</string>
+    <string name="registration_button_tooltip">*Button locked, please fill all fields</string>
+    <string name="registration_header">Registration</string>
+    <string name="registration_name_hint">Name:</string>
+    <string name="registration_surname_hint">Surname:</string>
+    <string name="registration_name_alert">Name and Surname must contain \nonly more then two letters</string>
+    <string name="registration_birthdate_hint">Birthdate:</string>
+    <string name="registration_birthdate_alert">You must be over 18 years old</string>
+    <string name="registration_password_hint">Password:</string>
+    <string name="registration_passwordConf_hint">Password confirmation:</string>
+    <string name="registration_password_alert">Passwords in these fields must match</string>
 </resources>
