@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ShiftLab Test 2024Sp"
 include ':app'
+include ':app:localStore'
+include ':app:data'
+include ':app:domain'
