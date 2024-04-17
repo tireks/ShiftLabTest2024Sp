@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.tirexmurina.shiftlabtest2024sp.R
 import com.tirexmurina.shiftlabtest2024sp.databinding.FragmentRegistrationBinding
 import com.tirexmurina.shiftlabtest2024sp.presentation.BaseFragment
-import com.tirexmurina.shiftlabtest2024sp.presentation.home.RegistrationState
+import com.tirexmurina.shiftlabtest2024sp.presentation.registration.RegistrationState
 import com.tirexmurina.shiftlabtest2024sp.utils.AppTextWatcher
 import com.tirexmurina.shiftlabtest2024sp.utils.UserParam
 import com.tirexmurina.shiftlabtest2024sp.utils.mainActivity

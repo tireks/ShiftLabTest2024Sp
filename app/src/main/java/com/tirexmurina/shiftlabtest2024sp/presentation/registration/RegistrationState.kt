@@ -1,4 +1,4 @@
-package com.tirexmurina.shiftlabtest2024sp.presentation.home
+package com.tirexmurina.shiftlabtest2024sp.presentation.registration
 
 import com.tirexmurina.shiftlabtest2024sp.utils.UserParam
 

@@ -11,7 +11,7 @@ import com.tirexmurina.shiftlabtest2024sp.domain.entity.User
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.DeleteUserUseCase
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.GetUserUseCase
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.SaveUserUseCase
-import com.tirexmurina.shiftlabtest2024sp.presentation.home.RegistrationState
+import com.tirexmurina.shiftlabtest2024sp.presentation.registration.RegistrationState
 import com.tirexmurina.shiftlabtest2024sp.utils.DateUtils
 import com.tirexmurina.shiftlabtest2024sp.utils.UserParam
 import dagger.hilt.android.lifecycle.HiltViewModel
