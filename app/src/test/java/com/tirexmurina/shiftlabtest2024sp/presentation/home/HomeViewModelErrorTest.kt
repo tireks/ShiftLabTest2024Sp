@@ -22,6 +22,8 @@ import java.util.stream.Stream
 @ExtendWith(MockitoExtension::class, InstantTaskExecutorExtension::class, TestCoroutineExtension::class)
 class HomeViewModelErrorTest {
 
+    //набор тестов чисто демонстрационный, конечно, тут еще тонну можно придумать
+
     private companion object {
 
         @JvmStatic

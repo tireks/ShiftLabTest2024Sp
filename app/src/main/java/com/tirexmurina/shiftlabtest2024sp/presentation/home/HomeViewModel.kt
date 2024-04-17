@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(
     val state: LiveData<HomeState> = _state
 
     fun initializeScreen(){
+        //изначальный экран с кнопкой - контент с null
         _state.value = HomeState.Content(null)
     }
 
@@ -34,7 +35,7 @@ class HomeViewModel @Inject constructor(
             _state.value = HomeState.Loading
             try {
                 val user = getUserUseCase()
-                _state.value = HomeState.Content(user)
+                _state.value = HomeState.Content(user) // а теперь запустится диалоговое окно (не здесь, во фрагменте, конечно)
             } catch (emptyException : EmptyTableException){
                 _state.value = HomeState.Error.EmptyTable
             } catch (garbageException : SizeException){
@@ -50,7 +51,7 @@ class HomeViewModel @Inject constructor(
             _state.value = HomeState.Loading
             try {
                 deleteUserUseCase()
-                _state.value = HomeState.Return
+                _state.value = HomeState.Return //даем сигнал фрагменту что все, аккаунта больше нет, нужно возвращаться на предыдущий экран
             } catch (unknownException : Exception){
                 _state.value = HomeState.Error.Unknown
             }

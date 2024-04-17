@@ -10,17 +10,17 @@ class DateUtils {
     fun isOver18YearsOld(dateString: String): Boolean {
         val today = Calendar.getInstance().time
         val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
-        // Создаем экземпляр Calendar для заданной даты
+        // создаем экземпляр Calendar для заданной даты
         val calendarBirth = Calendar.getInstance()
         if (date != null) {
             calendarBirth.time = date
         } else {
             throw DateException("date is corrupted")
         }
-        // Добавляем 18 лет к дате рождения
+        // добавляем 18 лет к дате рождения
         calendarBirth.add(Calendar.YEAR, 18)
 
-        // Сравниваем полученную дату с текущей
+        // сравниваем полученную дату с текущей
         return calendarBirth.time.before(today)
     }
 }

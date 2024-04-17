@@ -20,6 +20,8 @@ import ru.ftc.junit.sample.utils.InstantTaskExecutorExtension
 @ExtendWith(MockitoExtension::class, InstantTaskExecutorExtension::class, TestCoroutineExtension::class)
 class HomeViewModelTest {
 
+    //набор тестов чисто демонстрационный, конечно, тут еще тонну можно придумать
+
     private var getUsersUseCase: GetUserUseCase = mock()
     private var deleteUserUseCase: DeleteUserUseCase = mock()
     private var viewModel: HomeViewModel = HomeViewModel(getUsersUseCase, deleteUserUseCase)

@@ -65,12 +65,14 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
     private fun initializeFields() {
+        //тут инициализируем всякие листенеры полей и кнопок
         val paramFields = listOf(
             binding.nameEditText to UserParam.Name,
             binding.surnameEditText to UserParam.Surname,
             binding.birthdateEditText to UserParam.Birthdate,
             binding.passwordEditText to UserParam.Password,
             binding.passwordConfirmEditText to UserParam.PasswordConf
+            //лист для удобства цикличной привязки AppTextWatcher
         )
         paramFields.forEach {(editText, paramEnum) ->
             editText.addTextChangedListener(AppTextWatcher{
@@ -84,7 +86,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
     private fun handleContent(registrationState: RegistrationState.Content) {
-        //todo здесь мы непосредственно контент показываем
+        //здесь уже именно на контент переключаемся
         with(binding){
             ///toolbar.isVisible = true
             mainContentContainer.isVisible = true
@@ -98,7 +100,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
     private fun handleError(registrationState: RegistrationState.Error) {
-        //todo здесь меняем контент на отображение ошибки, какой именно - решится далее
+        //здесь меняем контент на отображение ошибки, какой именно - решится далее
         when(registrationState){
             is RegistrationState.Error.CorruptedDataFromDataSource ->
                 showErrorDialog(getString(R.string.registration_error_from_data))
@@ -119,6 +121,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
     private fun handleDatePick(birthdateEditText: TextInputEditText) {
+        //тут вызовем datePicker и сразу парсируем выбранную дату
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
@@ -134,12 +137,15 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
 
 
     private fun showLockedScreen(registrationState: RegistrationState.Content.Locked) {
-        binding.registrationButton.isClickable = false
+        //метод для управления экранном с некорректными данными
+        binding.registrationButton.isClickable = false //кнопку меняем на неактивную
         val color = ContextCompat.getColor(requireContext(),R.color.light_divider_color)
         binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
         binding.registrationButtonTooltip.isVisible = true
         viewLifecycleOwner.lifecycleScope.launch {
             with(binding) {
+                //из этого листа будут вычеркиваться поля с некорректными данными,
+                // оставшиеся элементы пойдут в "очистку"
                 val correctParamsList = mutableListOf(
                     nameEditText,
                     surnameEditText,
@@ -173,26 +179,40 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
                     }
                 }
                 tideUpForm(correctParamsList)
+                //тут пожалуй стоит пояснить, что сделано не очень экономно по отношению к ресурсам,
+                // но я хотел сделать именно так, чтобы правильность данных полей и
+                // ,соответственно, их отображение проверялись прямо на ходу, а не, скажем,
+                // только после нажатия на кнопку регистрации, да и учитывая,
+                // что кнопка регистрации должна быть заблокировано пока все поля не будут заполненными верными
+                // датами - это превращается в какую-то совсем неудобную систему
+
+                // следовало поработать с текствочером и какими-нибудь фокус листенерами,
+                // чтобы не триггерить на каждый введеный символ, но у меня попросту не получилось, не хватило времени
             }
         }
     }
 
     private fun tideUpForm(correctParamsList: MutableList<TextInputEditText>) {
+        //метод для "подчистки" - убирания эрроров у полей с правильными данными и пустых полей
         correctParamsList.forEach {
             showCorrectField(it)
         }
     }
 
     private fun showWrongField(editText: TextInputEditText, alertText : String) {
+        //врубаем эррор на поле
         (editText.parent.parent as TextInputLayout).error = alertText
     }
 
     private fun showCorrectField(editText: TextInputEditText) {
+        //выклюаем эррор на поле
         (editText.parent.parent as TextInputLayout).isErrorEnabled = false
     }
 
     private fun showUnlockedScreen() {
+        //метод для управления экранном с корректными данными
         val color = ContextCompat.getColor(requireContext(),R.color.light_primary_color)
+        //тут просто кнопку "включаем"
         binding.registrationButton.isClickable = true
         binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
         binding.registrationButtonTooltip.isVisible = false
@@ -207,10 +227,14 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
     private fun showErrorDialog(errorMsg : String){
+        //диалоговое окно с минимальной инфой об ошибке
         AlertDialog.Builder(context)
             .setTitle(errorMsg)
             .setMessage(getString(R.string.registration_error_dialog_base))
             .setPositiveButton(android.R.string.ok) {_, _, ->
+                //из действий - по факту, только закрыть приложение.
+                // Можно было бы еще сделать например полное удажение базы данных,
+                // чтобы при следующем запуске она снова создавалась, но я не успел
                 requireActivity().finish()
             }
             .setCancelable(false)

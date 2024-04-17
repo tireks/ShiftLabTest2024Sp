@@ -33,11 +33,14 @@ class RegistrationViewModel @Inject constructor(
         UserParam.Birthdate,
         UserParam.Password,
         UserParam.PasswordConf
+        //лист для хранения текущих пустых полей - не самое элегантное решение, но вроде норм
     )
 
     private var currentPassword : String = ""
+    //хранение текущего пароля для PasswordConfirmation
 
     private val wrongParamList = mutableListOf<UserParam>()
+    //лист для хранения текущих полей с неправильными данными - не самое элегантное решение, но вроде норм
 
     fun initializeScreen(){
         viewModelScope.launch {
@@ -70,20 +73,23 @@ class RegistrationViewModel @Inject constructor(
     ) {
         viewModelScope.launch{
             if (content.isNullOrEmpty()){
+                //пришло пустое поле, надо обновить текущие списки
                 if (!emptyParamList.contains(param)){
                     emptyParamList.add(param)
                     wrongParamList.remove(param)
                 }
             } else{
-                emptyParamList.remove(param)
+                emptyParamList.remove(param) //поле не пустое - вычеркиваем его из этого списка
 
-                val isParamValid = isParamValid(param, content)
-                val paramInWrongs = wrongParamList.contains(param)
+                val isParamValid = isParamValid(param, content) //отдаем содержимое поля на проверку
+                val paramInWrongs = wrongParamList.contains(param) //проверим, а вдруг оно уже и так в ложных
 
                 if (isParamValid && paramInWrongs) {
                     wrongParamList.remove(param)
                 } else if (!isParamValid && !paramInWrongs) {
                     wrongParamList.add(param)
+                    //добавляем в список неправильных - только если его там не было.
+                    //можно было использовать для этих целей HashMap, и не городить огород, но я слишком поздно об этом вспомнил
                 }
             }
             lockControl()
@@ -92,6 +98,7 @@ class RegistrationViewModel @Inject constructor(
 
     private fun isParamValid(param: UserParam, content: String) : Boolean{
         return when(param){
+            //раскидываем по специализированным функциям проверки
             UserParam.Name -> isNameValid(content)
 
             UserParam.Surname -> isNameValid(content)
@@ -114,7 +121,6 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun isBirthdateValid(validationData : String): Boolean{
-        /*dateUtils.isOver18YearsOld(validationData)*/
         return dateUtils.isOver18YearsOld(validationData)
     }
 
@@ -134,23 +140,11 @@ class RegistrationViewModel @Inject constructor(
     private fun lockControl(){
         viewModelScope.launch {
             if (emptyParamList.isEmpty() && wrongParamList.isEmpty()){
-                _state.value = RegistrationState.Content.Unlocked
-                Log.d("MyTag", "FUCK YEAH")
                 val emptyList = mutableListOf<UserParam>()
                 _state.value = RegistrationState.Content.Locked(emptyList) //это нужно для финальной очистки экрана от последних эрроров на полях
                 _state.value = RegistrationState.Content.Unlocked //а теперь наконец стейт с корректными данными и разблокированной кнопкой
             } else {
                 _state.value = RegistrationState.Content.Locked(wrongParamList)
-                Log.d("MyTag", "Содержимое emptyParamList:")
-                emptyParamList.forEach { param ->
-                    Log.d("MyTag", param.name) // или другое представление параметра, если необходимо
-                }
-
-                Log.d("MyTag", "Содержимое wrongParamList:")
-                wrongParamList.forEach { param ->
-                    Log.d("MyTag", param.name) // или другое представление параметра, если необходимо
-                }
-                Log.d("MyTag", "--------------------")
             }
         }
     }
@@ -166,7 +160,7 @@ class RegistrationViewModel @Inject constructor(
             _state.value = RegistrationState.Loading
             try {
                 register(user)
-                _state.value = RegistrationState.Skip
+                _state.value = RegistrationState.Skip //даем сигнал фрагменту что все ок, можно запускать переход на другой экран
             } catch (unknownException : Exception){
                 _state.value = RegistrationState.Error.Unknown
             }

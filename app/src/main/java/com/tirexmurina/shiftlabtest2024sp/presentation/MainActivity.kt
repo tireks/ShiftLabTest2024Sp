@@ -37,5 +37,4 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(action)
     }
 
-    //todo сдеа
 }

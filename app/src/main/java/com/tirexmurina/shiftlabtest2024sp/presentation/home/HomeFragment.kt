@@ -53,6 +53,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun initializeScreen() {
+        //тут помимо прочего включаем  и настраиваем менюшку
         mainActivity.setSupportActionBar(binding.toolbar)
         setupMenu()
         binding.greetingsButton.setOnClickListener { handleGreetingsButton() }
@@ -60,11 +61,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupMenu() {
+        //непосредственно - настройка менюшки
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.home_menu, menu)
             }
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                //опция меня для удаления акка
                 return when (menuItem.itemId) {
                     R.id.delete_menu_button -> {
                         handleAccountDelete()
@@ -82,6 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun handleError(homeState: HomeState.Error) {
+        //лбработчик ошибок
         when(homeState){
             is HomeState.Error.CorruptedDataFromDataSource ->
                 showErrorDialog(getString(R.string.registration_error_from_data))
@@ -97,13 +101,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun showContent(user: User?) {
+        //контроллер отображения контента, показывает экран с кнопкой приветствия если пришел null вместо юзера,
+        // и иначе - стартует диалог с данными юзера. контент с данными юзера приходит, естесственно после нажатия кнопки
         with(binding){
             mainContentContainer.isVisible = true
             progressBar.isVisible = false
         }
         if (user != null){
             AlertDialog.Builder(context)
-                .setTitle("Greetings!")
+                .setTitle(getString(R.string.home_dialog_title))
                 .setMessage(getString(R.string.home_greeting_message, user.firstName, user.lastName))
                 .show()
         }
@@ -117,10 +123,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun showErrorDialog(errorMsg : String){
+        //тоже просто диалог для минимальной инфы по ошибке
         AlertDialog.Builder(context)
             .setTitle(errorMsg)
             .setMessage(getString(R.string.registration_error_dialog_base))
             .setPositiveButton(android.R.string.ok) {_, _, ->
+                //из действий - по факту, только закрыть приложение.
+                // Можно было бы еще сделать например полное удажение базы данных,
+                // чтобы при следующем запуске она снова создавалась, но я не успел
                 requireActivity().finish()
             }
             .setCancelable(false)
@@ -128,6 +138,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun navigateBack() {
+        //сразу поясню зачем именно навигация
+        // на предыдущий экран с помощью action - потому что это простой и
+        // быстрый способ навигироваться на обновленный экран. Отменами транзакций это делается не так просто
         mainActivity.closeAccount()
     }
 }
