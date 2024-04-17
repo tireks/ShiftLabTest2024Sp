@@ -22,7 +22,6 @@ import javax.inject.Inject
 class RegistrationViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val saveUserUseCase: SaveUserUseCase,
-    private val deleteUserUseCase: DeleteUserUseCase,
     private val dateUtils: DateUtils
 ) : ViewModel() {
     private val _state = MutableLiveData<RegistrationState>(RegistrationState.Initial)

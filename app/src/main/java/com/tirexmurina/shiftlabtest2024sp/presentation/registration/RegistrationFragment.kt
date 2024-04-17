@@ -86,7 +86,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     private fun handleContent(registrationState: RegistrationState.Content) {
         //todo здесь мы непосредственно контент показываем
         with(binding){
-            toolbar.isVisible = true
+            ///toolbar.isVisible = true
             mainContentContainer.isVisible = true
             bottomButtonCard.isVisible = true
             progressBar.isVisible = false
@@ -211,7 +211,6 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
 
     private fun showLoading() {
         with(binding){
-            toolbar.isVisible = false
             mainContentContainer.isVisible = false
             bottomButtonCard.isVisible = false
             progressBar.isVisible = true
