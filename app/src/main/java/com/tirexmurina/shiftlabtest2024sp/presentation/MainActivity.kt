@@ -5,11 +5,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.findNavController
 import com.tirexmurina.shiftlabtest2024sp.R
+import com.tirexmurina.shiftlabtest2024sp.presentation.registration.RegistrationFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val navController get() = findNavController(R.id.mainDataContainer)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,5 +24,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    fun openAccount(){
+        val action = RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment()
+        navController.navigate(action)
     }
 }
