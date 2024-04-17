@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.dagger.hilt.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'de.mannodermaus.android-junit5' version "1.10.0.0"
 }
 
 android {
@@ -66,8 +67,16 @@ dependencies {
     annotationProcessor libs.androidx.room.compiler
     kapt libs.androidx.room.compiler
 
+    //тестирование
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
+    testImplementation libs.junit.jupiter.api
+    testImplementation libs.junit.jupiter.params
+    testRuntimeOnly libs.junit.jupiter.engine
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.mockito.junit.jupiter
+    testImplementation libs.kotlinx.coroutines.test
+    testImplementation libs.androidx.core.testing
 
     implementation project(':app:domain')
     implementation project(':app:data')
