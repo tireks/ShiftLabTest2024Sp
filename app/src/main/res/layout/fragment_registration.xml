@@ -8,13 +8,13 @@
     android:theme="@style/Theme.ShiftLabTest2024Sp.NoActionBar"
     tools:context=".presentation.registration.RegistrationFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <!--<androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/light_contrast_color"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContentContainer"
@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomButtonCard"
         android:padding="@dimen/normal_margin"
         >
