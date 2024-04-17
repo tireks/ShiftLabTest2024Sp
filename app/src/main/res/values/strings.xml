@@ -20,5 +20,7 @@
     <string name="registration_error_empty">К сожалению, не обнаружено сохраненных данных</string>
     <string name="registration_error_unknown">К сожалению, обнаружена неизвестная ошибка</string>
     <string name="registration_error_dialog_base">Приложение будет перезапущено</string>
+    <string name="home_greeting_message">Здравствуйте, %1$s %2$s</string>
+    <string name="home_menu_delete_option">Удалить аккаунт</string>
 
 </resources>
