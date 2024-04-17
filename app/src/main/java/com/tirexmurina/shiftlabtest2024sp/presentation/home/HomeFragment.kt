@@ -96,4 +96,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun handleAccountDelete() {
         viewModel.deleteUser()
     }
+
+    private fun showContent(user: User?) {
+        with(binding){
+            mainContentContainer.isVisible = true
+            progressBar.isVisible = false
+        }
+        if (user != null){
+            AlertDialog.Builder(context)
+                .setTitle("Приветствую!")
+                .setMessage(getString(R.string.home_greeting_message, user.firstName, user.lastName))
+                .show()
+        }
+    }
+
+    private fun showLoading() {
+        with(binding){
+            mainContentContainer.isVisible = false
+            progressBar.isVisible = true
+        }
+    }
+
+    private fun showErrorDialog(errorMsg : String){
+        AlertDialog.Builder(context)
+            .setTitle(errorMsg)
+            .setMessage(getString(R.string.registration_error_dialog_base))
+            .setPositiveButton(android.R.string.ok) {_, _, ->
+                requireActivity().finish()
+            }
+            .show()
+    }
+
+    private fun navigateBack() {
+        mainActivity.closeAccount()
+    }
 }
