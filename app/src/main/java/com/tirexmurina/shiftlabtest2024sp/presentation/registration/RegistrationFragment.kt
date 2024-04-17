@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.tirexmurina.shiftlabtest2024sp.R
@@ -21,6 +22,9 @@ import com.tirexmurina.shiftlabtest2024sp.utils.UserParam
 import com.tirexmurina.shiftlabtest2024sp.utils.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.TimeZone
 
 
 @AndroidEntryPoint
@@ -76,7 +80,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
             })
         }
         binding.registrationButton.setOnClickListener { handleRegistrationClick() }
-
+        binding.birthdateEditText.setOnClickListener { handleDatePick(binding.birthdateEditText) }
     }
 
     private fun handleContent(registrationState: RegistrationState.Content) {
@@ -108,6 +112,20 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
         val surname = binding.surnameEditText.text.toString()
         Log.d("MyTag", "ButtonBoom")
         viewModel.navigateUser(name, surname)
+    }
+
+    private fun handleDatePick(birthdateEditText: TextInputEditText) {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select date")
+                .build()
+        datePicker.show(parentFragmentManager, "tag")
+        datePicker.addOnPositiveButtonClickListener {
+            val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            utc.timeInMillis = it
+            val format = SimpleDateFormat("dd.MM.yyyy")
+            birthdateEditText.setText (format.format(utc.time))
+        }
     }
 
 
