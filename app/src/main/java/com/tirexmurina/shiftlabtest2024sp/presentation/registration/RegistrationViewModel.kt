@@ -10,6 +10,7 @@ import com.tirexmurina.shiftlabtest2024sp.domain.usecase.DeleteUserUseCase
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.GetUserUseCase
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.SaveUserUseCase
 import com.tirexmurina.shiftlabtest2024sp.presentation.home.RegistrationState
+import com.tirexmurina.shiftlabtest2024sp.utils.DateUtils
 import com.tirexmurina.shiftlabtest2024sp.utils.UserParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class RegistrationViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val saveUserUseCase: SaveUserUseCase,
-    private val deleteUserUseCase: DeleteUserUseCase
+    private val deleteUserUseCase: DeleteUserUseCase,
+    private val dateUtils: DateUtils
 ) : ViewModel() {
     private val _state = MutableLiveData<RegistrationState>(RegistrationState.Initial)
     val state: LiveData<RegistrationState> = _state
@@ -28,7 +30,7 @@ class RegistrationViewModel @Inject constructor(
     private val emptyParamList = mutableListOf(
         UserParam.Name,
         UserParam.Surname,
-        /*UserParam.Birthdate,*/
+        UserParam.Birthdate,
         UserParam.Password,
         UserParam.PasswordConf
     )
@@ -96,7 +98,8 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun isBirthdateValid(validationData : String): Boolean{
-        return true // todo это пока заглушка
+        /*dateUtils.isOver18YearsOld(validationData)*/
+        return dateUtils.isOver18YearsOld(validationData)
     }
 
     private fun isPasswordValid(validationData : String) : Boolean{
@@ -113,21 +116,23 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun lockControl(){
-        if (emptyParamList.isEmpty() && wrongParamList.isEmpty()){
-            _state.value = RegistrationState.Content.Unlocked
-            Log.d("MyTag", "FUCK YEAH")
-        } else {
-            _state.value = RegistrationState.Content.Locked(wrongParamList)
-            Log.d("MyTag", "Содержимое emptyParamList:")
-            emptyParamList.forEach { param ->
-                Log.d("MyTag", param.name) // или другое представление параметра, если необходимо
-            }
+        viewModelScope.launch {
+            if (emptyParamList.isEmpty() && wrongParamList.isEmpty()){
+                _state.value = RegistrationState.Content.Unlocked
+                Log.d("MyTag", "FUCK YEAH")
+            } else {
+                _state.value = RegistrationState.Content.Locked(wrongParamList)
+                Log.d("MyTag", "Содержимое emptyParamList:")
+                emptyParamList.forEach { param ->
+                    Log.d("MyTag", param.name) // или другое представление параметра, если необходимо
+                }
 
-            Log.d("MyTag", "Содержимое wrongParamList:")
-            wrongParamList.forEach { param ->
-                Log.d("MyTag", param.name) // или другое представление параметра, если необходимо
+                Log.d("MyTag", "Содержимое wrongParamList:")
+                wrongParamList.forEach { param ->
+                    Log.d("MyTag", param.name) // или другое представление параметра, если необходимо
+                }
+                Log.d("MyTag", "--------------------")
             }
-            Log.d("MyTag", "--------------------")
         }
     }
 
