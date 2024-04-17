@@ -41,4 +41,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
         initializeScreen()
     }
+
+    private fun handleState(homeState: HomeState) {
+        when(homeState){
+            is HomeState.Content -> showContent(homeState.user)
+            is HomeState.Initial -> Unit
+            is HomeState.Loading -> showLoading()
+            is HomeState.Return -> navigateBack()
+            is HomeState.Error -> handleError(homeState)
+        }
+    }
+    private fun handleGreetingsButton() {
+        viewModel.getUser()
+    }
+
+    private fun handleError(homeState: HomeState.Error) {
+        when(homeState){
+            is HomeState.Error.CorruptedDataFromDataSource ->
+                showErrorDialog(getString(R.string.registration_error_from_data))
+            is HomeState.Error.EmptyTable ->
+                showErrorDialog(getString(R.string.registration_error_empty))
+            is HomeState.Error.Unknown ->
+                showErrorDialog(getString(R.string.registration_error_unknown))
+        }
+    }
+
+    private fun handleAccountDelete() {
+        viewModel.deleteUser()
+    }
 }
