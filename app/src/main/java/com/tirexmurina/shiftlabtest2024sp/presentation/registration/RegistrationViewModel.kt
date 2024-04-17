@@ -36,6 +36,16 @@ class RegistrationViewModel @Inject constructor(
     private var currentPassword : String = ""
 
     private val wrongParamList = mutableListOf<UserParam>()
+
+    fun initializeScreen(){
+        viewModelScope.launch {
+            _state.value = RegistrationState.Loading
+            //тут будет тест на эксепшн, если да - то стартуем форму, если нет, то стейт скип,
+            // пока просто:
+            lockControl()
+        }
+    }
+
     fun validateParam(
         param: UserParam,
         content: String?
@@ -121,4 +131,26 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
+    fun navigateUser(name: String, surname : String){
+        //его можно было бы создать User и прямо во фрагменте, но зачем лишние зависимости от домейна,
+        // фрагменту все равно сущность User как таковая не нужна
+        viewModelScope.launch {
+            if (name.isEmpty() || surname.isEmpty()){
+                _state.value = RegistrationState.Error.CorruptedDataFromForm
+            }
+            val user = User(name, surname)
+            _state.value = RegistrationState.Loading
+            try {
+                register(user)
+                deleteUserUseCase() //todo это пока чтобы базу не засорять
+                _state.value = RegistrationState.Skip
+            } catch (unknownException : Exception){
+                _state.value = RegistrationState.Error.Unknown
+            }
+        }
+    }
+
+    private suspend fun register(user: User) {
+        saveUserUseCase(user)
+    }
 }
