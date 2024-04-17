@@ -12,6 +12,7 @@
     <string name="registration_birthdate_alert">You must be over 18 years old</string>
     <string name="registration_password_hint">Password:</string>
     <string name="registration_passwordConf_hint">Password confirmation:</string>
-    <string name="registration_password_alert">Passwords in these fields must match</string>
+    <string name="registration_password_conf_alert">Passwords in these fields must match</string>
+    <string name="registration_password_alert">Passwords must contain digits, small and large letters</string>
     <string name="greetings_button">Greetings!</string>
 </resources>
