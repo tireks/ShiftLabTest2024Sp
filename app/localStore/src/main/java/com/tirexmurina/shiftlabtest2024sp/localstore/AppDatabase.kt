@@ -14,7 +14,6 @@ abstract class AppDatabase : RoomDatabase(){
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
-        // Функция для получения экземпляра базы данных.
         fun getDatabase(context: Context): AppDatabase {
             // Если база данных еще не инициализирована, то инициализируем ее.
             return INSTANCE ?: synchronized(this) {

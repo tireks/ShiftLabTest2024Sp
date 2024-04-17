@@ -9,4 +9,5 @@
     <color name="light_secondary_text_color">#757575</color>
     <color name="light_divider_color">#BDBDBD</color>
     <color name="alert_text_color">#EE5353</color>
+    <color name="alert_field_color">#EB8484</color>
 </resources>

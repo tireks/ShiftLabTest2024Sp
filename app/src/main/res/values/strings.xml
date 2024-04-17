@@ -12,6 +12,16 @@
     <string name="registration_birthdate_alert">You must be over 18 years old</string>
     <string name="registration_password_hint">Password:</string>
     <string name="registration_passwordConf_hint">Password confirmation:</string>
-    <string name="registration_password_alert">Passwords in these fields must match</string>
+    <string name="registration_password_conf_alert">Passwords in these fields must match</string>
+    <string name="registration_password_alert">Passwords must contain digits, small and large letters</string>
     <string name="greetings_button">Greetings!</string>
+    <string name="registration_error_from_form">Unfortunately, an error was detected with the data entered on the registration screen</string>
+    <string name="registration_error_from_data">Unfortunately, an error has been detected with the saved user data</string>
+    <string name="registration_error_empty">Unfortunately, no saved data was found</string>
+    <string name="registration_error_unknown">Unfortunately, an unknown error has been detected</string>
+    <string name="registration_error_dialog_base">The application will be restarted</string>
+    <string name="home_greeting_message">Hello, %1$s %2$s</string>
+    <string name="home_menu_delete_option">Delete account</string>
+    <string name="home_header">Account</string>
+
 </resources>

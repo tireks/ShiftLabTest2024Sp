@@ -14,7 +14,19 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/light_contrast_color"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white">
+        <TextView
+            android:id="@+id/mainLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_header"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:textColor="@color/light_primary_color"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContentContainer"
@@ -22,12 +34,12 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/bottomButtonCard"
         android:padding="@dimen/normal_margin"
         >
 
-        <TextView
+        <!--<TextView
             android:id="@+id/mainLabel"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -38,7 +50,7 @@
             android:textStyle="bold"
             android:fontFamily="@font/sf_pro_display_medium"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="16dp" />
+            tools:layout_editor_absoluteY="16dp" />-->
 
         <ImageView
             android:id="@+id/namePic"
@@ -49,11 +61,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameEditLayout"
-            app:layout_constraintTop_toBottomOf="@id/mainLabel"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/namePic"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/registration_name_hint"
-            style="@style/editLayout_normal_style">
+            style="@style/editLayout_normal_style"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nameEditText"
@@ -80,14 +93,6 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/nameAlert"
-            app:layout_constraintTop_toBottomOf="@id/surnameEditLayout"
-            app:layout_constraintStart_toStartOf="@id/surnameEditLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/registration_name_alert"
-            style="@style/alertText_normal_style" />
-
         <ImageView
             android:id="@+id/birthdatePic"
             style="@style/pic_normal_style"
@@ -104,7 +109,9 @@
             android:focusable="false"
             android:hint="@string/registration_birthdate_hint"
             app:endIconMode="clear_text"
-            style="@style/editLayout_normal_style">
+            style="@style/editLayout_normal_style"
+            android:layout_marginTop="@dimen/normal_margin"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/birthdateEditText"
@@ -114,14 +121,6 @@
                 android:inputType="datetime|date"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/birthdayAlert"
-            style="@style/alertText_normal_style"
-            app:layout_constraintTop_toBottomOf="@id/birthdateEditLayout"
-            app:layout_constraintStart_toStartOf="@id/birthdateEditLayout"
-            android:text="@string/registration_birthdate_alert"
-            />
 
         <ImageView
             android:id="@+id/passwordPic"
@@ -138,7 +137,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/registration_password_hint"
             app:endIconMode="password_toggle"
-            style="@style/editLayout_normal_style">
+            style="@style/editLayout_normal_style"
+            android:layout_marginTop="@dimen/normal_margin">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
@@ -165,15 +165,6 @@
                 android:inputType="textPassword"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/passwordAlert"
-            style="@style/alertText_normal_style"
-            app:layout_constraintTop_toBottomOf="@id/passwordConfirmEditLayout"
-            app:layout_constraintStart_toStartOf="@id/passwordConfirmEditLayout"
-            android:text="@string/registration_password_alert"
-            />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -228,5 +219,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_gravity="center"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

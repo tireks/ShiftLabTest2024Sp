@@ -31,7 +31,9 @@ class UserRepositoryImpl(
 
     override suspend fun saveUser(user: User) {
         if (dao.getTableSize() > 0){
-            dao.clearDatabase() // сразу подчистим базу
+            dao.clearDatabase() // сразу подчистим базу,
+            // тут тоже можно было бы пробросить SizeException,
+            // но не вижу в этом большого смысла
         }
         dao.insertUser(converterToLocal.convert(user))
     }

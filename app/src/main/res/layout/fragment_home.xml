@@ -22,7 +22,21 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/light_contrast_color"
             app:layout_constraintTop_toTopOf="parent"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/light_primary_color"
+            app:actionMenuTextAppearance="@style/MenuTitleStyle"
+            >
+            <TextView
+                android:id="@+id/mainLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_header"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:textColor="@color/light_primary_color"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/centralButtonCard"
@@ -64,18 +78,19 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_gravity="center"
-            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_gravity="center"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
