@@ -1,5 +1,6 @@
 package com.tirexmurina.shiftlabtest2024sp.presentation.registration
 
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +17,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.tirexmurina.shiftlabtest2024sp.R
 import com.tirexmurina.shiftlabtest2024sp.databinding.FragmentRegistrationBinding
 import com.tirexmurina.shiftlabtest2024sp.presentation.BaseFragment
-import com.tirexmurina.shiftlabtest2024sp.presentation.registration.RegistrationState
 import com.tirexmurina.shiftlabtest2024sp.utils.AppTextWatcher
 import com.tirexmurina.shiftlabtest2024sp.utils.UserParam
 import com.tirexmurina.shiftlabtest2024sp.utils.mainActivity
@@ -100,10 +100,14 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     private fun handleError(registrationState: RegistrationState.Error) {
         //todo здесь меняем контент на отображение ошибки, какой именно - решится далее
         when(registrationState){
-            is RegistrationState.Error.CorruptedDataFromDataSource -> TODO()
-            is RegistrationState.Error.EmptyTable -> TODO()
-            is RegistrationState.Error.Unknown -> TODO()
-            is RegistrationState.Error.CorruptedDataFromForm -> TODO()
+            is RegistrationState.Error.CorruptedDataFromDataSource ->
+                showErrorDialog(getString(R.string.registration_error_from_data))
+            is RegistrationState.Error.EmptyTable ->
+                showErrorDialog(getString(R.string.registration_error_empty))
+            is RegistrationState.Error.Unknown ->
+                showErrorDialog(getString(R.string.registration_error_unknown))
+            is RegistrationState.Error.CorruptedDataFromForm ->
+                showErrorDialog(getString(R.string.registration_error_from_form))
         }
     }
 
@@ -212,6 +216,16 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
             bottomButtonCard.isVisible = false
             progressBar.isVisible = true
         }
+    }
+
+    private fun showErrorDialog(errorMsg : String){
+        AlertDialog.Builder(context)
+            .setTitle(errorMsg)
+            .setMessage(getString(R.string.registration_error_dialog_base))
+            .setPositiveButton(android.R.string.ok) {_, _, ->
+                requireActivity().finish()
+            }
+            .show()
     }
 
 
