@@ -137,6 +137,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
         binding.registrationButton.isClickable = false
         val color = ContextCompat.getColor(requireContext(),R.color.light_divider_color)
         binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
+        binding.registrationButtonTooltip.isVisible = true
         viewLifecycleOwner.lifecycleScope.launch {
             with(binding) {
                 val correctParamsList = mutableListOf(
@@ -206,7 +207,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
         val color = ContextCompat.getColor(requireContext(),R.color.light_primary_color)
         binding.registrationButton.isClickable = true
         binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
-        //todo next shiii...
+        binding.registrationButtonTooltip.isVisible = false
     }
 
     private fun showLoading() {

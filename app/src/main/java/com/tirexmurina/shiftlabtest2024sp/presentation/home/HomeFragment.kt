@@ -54,7 +54,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun initializeScreen() {
         mainActivity.setSupportActionBar(binding.toolbar)
-        mainActivity.supportActionBar?.title = "Аккаунт"
         setupMenu()
         binding.greetingsButton.setOnClickListener { handleGreetingsButton() }
         viewModel.initializeScreen()
@@ -104,7 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         if (user != null){
             AlertDialog.Builder(context)
-                .setTitle("Приветствую!")
+                .setTitle("Greetings!")
                 .setMessage(getString(R.string.home_greeting_message, user.firstName, user.lastName))
                 .show()
         }
