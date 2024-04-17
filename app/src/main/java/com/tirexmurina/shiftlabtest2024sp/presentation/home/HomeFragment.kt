@@ -51,6 +51,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             is HomeState.Error -> handleError(homeState)
         }
     }
+
+    private fun initializeScreen() {
+        mainActivity.setSupportActionBar(binding.toolbar)
+        mainActivity.supportActionBar?.title = "Аккаунт"
+        setupMenu()
+        binding.greetingsButton.setOnClickListener { handleGreetingsButton() }
+        viewModel.initializeScreen()
+    }
+
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.home_menu, menu)
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.delete_menu_button -> {
+                        handleAccountDelete()
+                        true
+                    }
+                    else -> return false
+                }
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
     private fun handleGreetingsButton() {
         viewModel.getUser()
     }
