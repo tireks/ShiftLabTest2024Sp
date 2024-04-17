@@ -136,6 +136,9 @@ class RegistrationViewModel @Inject constructor(
             if (emptyParamList.isEmpty() && wrongParamList.isEmpty()){
                 _state.value = RegistrationState.Content.Unlocked
                 Log.d("MyTag", "FUCK YEAH")
+                val emptyList = mutableListOf<UserParam>()
+                _state.value = RegistrationState.Content.Locked(emptyList) //это нужно для финальной очистки экрана от последних эрроров на полях
+                _state.value = RegistrationState.Content.Unlocked //а теперь наконец стейт с корректными данными и разблокированной кнопкой
             } else {
                 _state.value = RegistrationState.Content.Locked(wrongParamList)
                 Log.d("MyTag", "Содержимое emptyParamList:")

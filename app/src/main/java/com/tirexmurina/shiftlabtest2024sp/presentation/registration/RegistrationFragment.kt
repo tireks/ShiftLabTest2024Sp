@@ -192,18 +192,6 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
     private fun showUnlockedScreen() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            with(binding) {
-                val correctParamsList = mutableListOf(
-                    nameEditText,
-                    surnameEditText,
-                    birthdateEditText,
-                    passwordEditText,
-                    passwordConfirmEditText
-                )
-                tideUpForm(correctParamsList)
-            }
-        }
         val color = ContextCompat.getColor(requireContext(),R.color.light_primary_color)
         binding.registrationButton.isClickable = true
         binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
@@ -225,6 +213,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
             .setPositiveButton(android.R.string.ok) {_, _, ->
                 requireActivity().finish()
             }
+            .setCancelable(false)
             .show()
     }
 

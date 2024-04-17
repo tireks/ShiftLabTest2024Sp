@@ -123,6 +123,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             .setPositiveButton(android.R.string.ok) {_, _, ->
                 requireActivity().finish()
             }
+            .setCancelable(false)
             .show()
     }
 
