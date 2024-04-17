@@ -20,4 +20,8 @@
         <item name="android:textColor">@color/alert_text_color</item>
         <item name="android:visibility">gone</item>
     </style>
+
+    <style name="MenuTitleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/light_primary_color</item>
+    </style>
 </resources>
