@@ -46,6 +46,16 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
 }
+    private fun handleState(registrationState: RegistrationState) {
+        when(registrationState){
+            is RegistrationState.Initial -> Unit
+            is RegistrationState.Content -> handleContent(registrationState)
+            is RegistrationState.Error -> handleError(registrationState)
+            is RegistrationState.Loading -> showLoading()
+            is RegistrationState.Skip -> mainActivity.openAccount()
+        }
+    }
+
     private fun initializeScreen() {
         viewModel.initializeScreen()
         initializeFields()
@@ -69,4 +79,36 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
         binding.registrationButton.setOnClickListener { handleRegistrationClick() }
 
     }
+
+    private fun handleContent(registrationState: RegistrationState.Content) {
+        //todo здесь мы непосредственно контент показываем
+        with(binding){
+            toolbar.isVisible = true
+            mainContentContainer.isVisible = true
+            bottomButtonCard.isVisible = true
+            progressBar.isVisible = false
+        }
+        when(registrationState){
+            is RegistrationState.Content.Locked -> showLockedScreen(registrationState)
+            is RegistrationState.Content.Unlocked -> showUnlockedScreen()
+        }
+    }
+
+    private fun handleError(registrationState: RegistrationState.Error) {
+        //todo здесь меняем контент на отображение ошибки, какой именно - решится далее
+        when(registrationState){
+            is RegistrationState.Error.CorruptedDataFromDataSource -> TODO()
+            is RegistrationState.Error.EmptyTable -> TODO()
+            is RegistrationState.Error.Unknown -> TODO()
+            is RegistrationState.Error.CorruptedDataFromForm -> TODO()
+        }
+    }
+
+    private fun handleRegistrationClick() {
+        val name = binding.nameEditText.text.toString()
+        val surname = binding.surnameEditText.text.toString()
+        Log.d("MyTag", "ButtonBoom")
+        viewModel.navigateUser(name, surname)
+    }
+
 
