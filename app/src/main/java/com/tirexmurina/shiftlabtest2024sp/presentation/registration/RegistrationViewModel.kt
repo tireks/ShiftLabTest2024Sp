@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tirexmurina.shiftlabtest2024sp.data.exceptions.EmptyTableException
+import com.tirexmurina.shiftlabtest2024sp.data.exceptions.SizeException
 import com.tirexmurina.shiftlabtest2024sp.domain.entity.User
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.DeleteUserUseCase
 import com.tirexmurina.shiftlabtest2024sp.domain.usecase.GetUserUseCase
@@ -44,7 +46,23 @@ class RegistrationViewModel @Inject constructor(
             _state.value = RegistrationState.Loading
             //тут будет тест на эксепшн, если да - то стартуем форму, если нет, то стейт скип,
             // пока просто:
-            lockControl()
+            try {
+                // здесь напишу пояснение по поводу User - я не передаю данные User между экранами(никаких id, ничего),
+                // не вижу в этом большого смысла, у нас и так вся инфраструктура бд написана так
+                // чтобы в таблице не могло быть больше одного User
+                // А в этой вьюмодели по факту сам полученный с базы юзер - не нужен. Нужен сам факт того,
+                // что его можно получить, что он там есть. Можно было сделать под это отдельный юзкейс,
+                // и в repoImpl как-нибудь его обрабатывать. Но я подумал что это избыточно
+                getUserUseCase()
+                Log.d("MyTag", "user got")
+                _state.value = RegistrationState.Skip
+            } catch (emptyException : EmptyTableException){
+                lockControl()
+            } catch (garbageException : SizeException){
+                _state.value = RegistrationState.Error.CorruptedDataFromDataSource
+            } catch (unknownException : Exception){
+                _state.value = RegistrationState.Error.Unknown
+            }
         }
     }
 
@@ -147,7 +165,7 @@ class RegistrationViewModel @Inject constructor(
             _state.value = RegistrationState.Loading
             try {
                 register(user)
-                deleteUserUseCase() //todo это пока чтобы базу не засорять
+                /*deleteUserUseCase() //todo это пока чтобы базу не засорять*/
                 _state.value = RegistrationState.Skip
             } catch (unknownException : Exception){
                 _state.value = RegistrationState.Error.Unknown
