@@ -46,3 +46,27 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
 }
+    private fun initializeScreen() {
+        viewModel.initializeScreen()
+        initializeFields()
+    }
+
+    private fun initializeFields() {
+        val paramFields = listOf(
+            binding.nameEditText to UserParam.Name,
+            binding.surnameEditText to UserParam.Surname,
+            binding.birthdateEditText to UserParam.Birthdate,
+            binding.passwordEditText to UserParam.Password,
+            binding.passwordConfirmEditText to UserParam.PasswordConf
+        )
+        paramFields.forEach {(editText, paramEnum) ->
+            editText.addTextChangedListener(AppTextWatcher{
+                if(editText.text.toString().isEmpty()){
+                    viewModel.validateParam(paramEnum, null)
+                } else viewModel.validateParam(paramEnum, editText.text.toString())
+            })
+        }
+        binding.registrationButton.setOnClickListener { handleRegistrationClick() }
+
+    }
+
