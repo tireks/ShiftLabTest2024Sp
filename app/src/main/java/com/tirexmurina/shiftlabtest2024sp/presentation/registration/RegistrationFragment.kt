@@ -45,7 +45,6 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
         initializeScreen()
     }
 
-}
     private fun handleState(registrationState: RegistrationState) {
         when(registrationState){
             is RegistrationState.Initial -> Unit
@@ -112,3 +111,91 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>() {
     }
 
 
+    private fun showLockedScreen(registrationState: RegistrationState.Content.Locked) {
+        binding.registrationButton.isClickable = false
+        val color = ContextCompat.getColor(requireContext(),R.color.light_divider_color)
+        binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
+        viewLifecycleOwner.lifecycleScope.launch {
+            with(binding) {
+                val correctParamsList = mutableListOf(
+                    nameEditText,
+                    surnameEditText,
+                    birthdateEditText,
+                    passwordEditText,
+                    passwordConfirmEditText
+                )
+
+                registrationState.troubleList.forEach {
+                    when (it) {
+                        UserParam.Name -> {
+                            correctParamsList.remove(nameEditText)
+                            showWrongField(nameEditText, getString(R.string.registration_name_alert))
+                        }
+                        UserParam.Surname -> {
+                            correctParamsList.remove(surnameEditText)
+                            showWrongField(surnameEditText, getString(R.string.registration_name_alert))
+                        }
+                        UserParam.Birthdate -> {
+                            correctParamsList.remove(birthdateEditText)
+                            showWrongField(birthdateEditText, getString(R.string.registration_birthdate_alert))
+                        }
+                        UserParam.Password -> {
+                            correctParamsList.remove(passwordEditText)
+                            showWrongField(passwordEditText, getString(R.string.registration_password_alert))
+                        }
+                        UserParam.PasswordConf -> {
+                            correctParamsList.remove(passwordConfirmEditText)
+                            showWrongField(passwordConfirmEditText, getString(R.string.registration_password_conf_alert))
+                        }
+                    }
+                }
+                tideUpForm(correctParamsList)
+            }
+        }
+    }
+
+    private fun tideUpForm(correctParamsList: MutableList<TextInputEditText>) {
+        correctParamsList.forEach {
+            showCorrectField(it)
+        }
+    }
+
+    private fun showWrongField(editText: TextInputEditText, alertText : String) {
+        (editText.parent.parent as TextInputLayout).error = alertText
+    }
+
+    private fun showCorrectField(editText: TextInputEditText) {
+        (editText.parent.parent as TextInputLayout).isErrorEnabled = false
+    }
+
+    private fun showUnlockedScreen() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            with(binding) {
+                val correctParamsList = mutableListOf(
+                    nameEditText,
+                    surnameEditText,
+                    birthdateEditText,
+                    passwordEditText,
+                    passwordConfirmEditText
+                )
+                tideUpForm(correctParamsList)
+            }
+        }
+        val color = ContextCompat.getColor(requireContext(),R.color.light_primary_color)
+        binding.registrationButton.isClickable = true
+        binding.registrationButton.backgroundTintList = ColorStateList.valueOf(color)
+        //todo next shiii...
+    }
+
+    private fun showLoading() {
+        with(binding){
+            toolbar.isVisible = false
+            mainContentContainer.isVisible = false
+            bottomButtonCard.isVisible = false
+            progressBar.isVisible = true
+        }
+    }
+
+
+
+}
